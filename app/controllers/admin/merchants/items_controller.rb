@@ -15,15 +15,15 @@ class Admin::Merchants::ItemsController < Admin::BaseController
     switch_active_with_flash(item, merchant)
   end
 
-  def destroy
-    require 'pry'; binding.pry
-    merchant = Merchant.find(params[:merchant_id])
-    item = Item.find(params[:id])
-    Review.where(item_id: item.id).destroy_all
-    item.destroy
-    flash[:notice] = "#{item.name} has been deleted"
-    redirect_to "/admin/merchants/items"
-  end
+  # def destroy
+  #   require 'pry'; binding.pry
+  #   merchant = Merchant.find(params[:merchant_id])
+  #   item = Item.find(params[:id])
+  #   Review.where(item_id: item.id).destroy_all
+  #   item.destroy
+  #   flash[:notice] = "#{item.name} has been deleted"
+  #   redirect_to "/admin/merchants/items"
+  # end
 
   def switch_active_with_flash(item, merchant)
     if item.active?
