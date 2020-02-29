@@ -1,0 +1,12 @@
+<h4> My Discounts </h4> 
+<br>
+
+<% @discounts.each do |discount| %>
+  <div id = "discount-<%= discount.id %>" >
+    <p> Name: <%= "#{discount.name}" %> </p> 
+    <p> Number of Items: <%= "#{discount.number_items}" %> </p> 
+    <p> Discount Percent: <%= "#{number_to_percentage(discount.percent, precision:1)}" %> </p> 
+    <p> Created on: <%= "#{discount.created_at}" %>  </p> 
+  </div>
+  <hr>
+<% end %>
