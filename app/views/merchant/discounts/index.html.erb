@@ -1,5 +1,5 @@
-<h4> My Discounts </h4> 
-<br>
+<h3> My Discounts </h3> 
+
 
 <% @discounts.each do |discount| %>
   <div id = "discount-<%= discount.id %>" >
@@ -10,3 +10,6 @@
   </div>
   <hr>
 <% end %>
+<br>
+
+<%= link_to 'Add Discount', '/merchant/discounts/new' %>
