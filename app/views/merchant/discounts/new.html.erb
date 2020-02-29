@@ -2,13 +2,13 @@
   <%= form_with url: merchant_discounts_path, local: true, html: { method: :post } do |f| %>
 
     <%= f.label :name %>
-    <%= f.text_field :name, :value => @discount[:name] %>
+    <%= f.text_field :name, :value => @discount[:name] %> <br>
 
     <%= f.label :number_items %>
-    <%= f.text_field :number_items, :value => @discount[:number_items] %>
+    <%= f.text_field :number_items, :value => @discount[:number_items] %>  <br>
 
     <%= f.label :percent %>
-    <%= f.text_field :percent, :value => @discount[:percent] %>
+    <%= f.text_field :percent, :value => @discount[:percent] %>  <br>
 
     <%= f.submit("Submit") %>
 
