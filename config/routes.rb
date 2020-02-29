@@ -44,6 +44,8 @@ Rails.application.routes.draw do
     get '/', to: 'dashboard#index'
     get '/items', to: 'items#index'
     get '/discounts', to: 'discounts#index'
+    post '/discounts', to: 'discounts#create'
+    get '/discounts/new', to: 'discounts#new'
     get '/items/:id/edit', to: 'items#edit', as: 'edit_items'
     patch '/items/:id', to: 'items#update', as: 'post_items'
     post '/items', to: 'items#create', as: 'create_items'
