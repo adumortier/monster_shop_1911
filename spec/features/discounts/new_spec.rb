@@ -3,7 +3,7 @@
 require 'rails_helper'
 
 RSpec.describe 'As a merchant employee', type: :feature do
-  describe 'when I visit my merchant dashboard' do
+  describe 'when I visit my discounts index page' do
     before(:each) do
       @merchant_user = User.create!(name: 'Alex',
                                     street_address: '321 Jones Dr',
@@ -29,7 +29,7 @@ RSpec.describe 'As a merchant employee', type: :feature do
       click_button 'Log In'
     end
 
-    it 'there is a link to create a new discount for my merchant' do
+    it 'I can access a new discount form and create a new discount with valid arguments' do
       visit '/merchant/discounts'
 
       click_link('Add Discount')
@@ -48,8 +48,6 @@ RSpec.describe 'As a merchant employee', type: :feature do
       expect(new_discount).to_not eq(last_discount)
 
       expect(current_path).to eq('/merchant/discounts')
-
-      new_discount = @merchant1.discounts.last
 
       within("div#discount-#{@discount1.id}") do
         expect(page).to have_content("Name: #{@discount1.name}")
@@ -75,5 +73,63 @@ RSpec.describe 'As a merchant employee', type: :feature do
 
       expect(page).to have_content('Your new discount was saved')
     end
+
+    it 'I can not create a new discount with invalid arguments' do
+
+      visit '/merchant/discounts'
+      click_link('Add Discount')
+      expect(current_path).to eq('/merchant/discounts/new')
+
+      fill_in :name, with: 'A discount with invalid fields'
+      fill_in :number_items, with: 0
+      fill_in :percent, with: 0.0
+
+      last_discount = @merchant1.discounts.last
+
+      click_button 'Submit'
+
+      new_discount = @merchant1.discounts.last
+
+      expect(new_discount).to eq(last_discount)
+
+      expect(current_path).to eq('/merchant/discounts/new')
+
+      expect(find_field('name').value).to eq("A discount with invalid fields")
+      expect(find_field('number_items').value).to eq("0")
+      expect(find_field('percent').value).to eq("0.0")
+
+      expect(page).to have_content('Number items must be greater than 0')
+      expect(page).to have_content('Percent must be greater than 0')
+
+    end
+
+    it 'I can not create a discount that conflicts with existing discounts' do
+
+      visit '/merchant/discounts'
+      click_link('Add Discount')
+      expect(current_path).to eq('/merchant/discounts/new')
+
+      fill_in :name, with: 'A discount with fields in conflict with other existing discount'
+      fill_in :number_items, with: 15
+      fill_in :percent, with: 7.0
+
+      last_discount = @merchant1.discounts.last
+
+      click_button 'Submit'
+
+      new_discount = @merchant1.discounts.last
+
+      expect(new_discount).to eq(last_discount)
+
+      expect(current_path).to eq('/merchant/discounts/new')
+
+      expect(find_field('name').value).to eq('A discount with fields in conflict with other existing discount')
+      expect(find_field('number_items').value).to eq("15")
+      expect(find_field('percent').value).to eq("7.0")
+
+      expect(page).to have_content('The discount you tried to create is in conflict with existing discounts')
+
+    end
+
   end
 end
