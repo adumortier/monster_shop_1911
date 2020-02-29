@@ -5,7 +5,11 @@ class Merchant::DiscountsController < Merchant::BaseController
   end
 
   def new
-    @discount = Discount.new
+    if session[:failed_discount]
+      @discount = Discount.new(session[:failed_discount])
+    else
+      @discount = Discount.new
+    end
   end
 
   def create 
@@ -20,11 +24,15 @@ class Merchant::DiscountsController < Merchant::BaseController
   end
 
   def create_discount(discount)
-     if discount.save
+     if discount.valid_discount? && discount.save 
       flash[:notice] = 'Your new discount was saved'
       session[:failed_discount] = nil
       redirect_to '/merchant/discounts'
     else
+      if !discount.valid_discount? 
+        flash[:conflict] = 'The discount you tried to create is in conflict with existing discounts' 
+      end
+      discount.destroy
       session[:failed_discount] = discount_params
       flash[:error] = discount.errors.full_messages.to_sentence
       redirect_to '/merchant/discounts/new'
