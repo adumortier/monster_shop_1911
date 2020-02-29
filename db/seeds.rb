@@ -16,6 +16,8 @@ fly_shop = Merchant.create(name: "Franks's Fly's & Ties", address: '6678 Fly St.
 bee_shop = Merchant.create(name: "Alex's Bee Gardens", address: '6678 Bzzz Rd.', city: 'Paris', state: 'TX', zip: 60700)
 ski_shop = Merchant.create(name: "Travis's Sleds & Shreds", address: '5467 Pow St.', city: 'Jackson', state: 'WY', zip: 34567)
 
+ski_shop.discounts.create!(name: "winter special", number_items: 5, percent: 5)
+ski_shop.discounts.create!(name: "big sale", number_items: 10, percent: 15)
 #plant_shop items
 azaleas = plant_shop.items.create(name: "Azaleas", description: "Gorgeous plants, dogs love them.", price: 15, image: "https://www.directgardening.com/1718-thickbox_default/pink-azalea.jpg", inventory: 1)
 palm = plant_shop.items.create(name: "Palm Tree", description: "I like coconuts!", price: 50, image: "https://upload.wikimedia.org/wikipedia/commons/7/7a/1859-Martinique.web.jpg", inventory: 4)
