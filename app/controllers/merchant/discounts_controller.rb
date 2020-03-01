@@ -17,6 +17,10 @@ class Merchant::DiscountsController < Merchant::BaseController
     create_discount(@discount)
   end
 
+  def show 
+    @discount = Discount.find(params[:id])
+  end
+
   private
 
   def discount_params
