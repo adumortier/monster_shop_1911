@@ -29,30 +29,25 @@ RSpec.describe "As a merchant employee", type: :feature do
       click_button "Log In"
     end
 
-    it 'there is a link to access the discounts of my merchant' do 
+    it 'I can click on an item name to see its information' do 
       
       expect(current_path).to eq('/merchant')
 
       click_link 'My Discounts'
 
       within("div#discount-#{@discount1.id}") do 
-        expect(page).to have_content("Name: #{@discount1.name}")
-        expect(page).to have_content("Number of Items: #{@discount1.number_items}")
-        expect(page).to have_content("Discount Percent: #{ActiveSupport::NumberHelper.number_to_percentage(@discount1.percent, precision:1)}")
+        click_link(@discount1.name)
       end
 
-      within("div#discount-#{@discount2.id}") do 
-        expect(page).to have_content("Name: #{@discount2.name}")
-        expect(page).to have_content("Number of Items: #{@discount2.number_items}")
-        expect(page).to have_content("Discount Percent: #{ActiveSupport::NumberHelper.number_to_percentage(@discount2.percent, precision:1)}")
-      end
+      expect(current_path).to eq("/merchant/discounts/#{@discount1.id}")
 
+      expect(page).to have_content("Name: #{@discount1.name}")
+      expect(page).to have_content("Number of Items: #{@discount1.number_items}")
+      expect(page).to have_content("Discount Percent: #{ActiveSupport::NumberHelper.number_to_percentage(@discount1.percent, precision:1)}")
+      expect(page).to have_content("Created on: #{@discount1.created_at}")
+
+      expect(page).to_not have_content("Name: #{@discount2.name}")
       expect(page).to_not have_content("Name: #{@discount3.name}")
-        
-    end
-
-    it 'test_name_here' do
-
     end
 
   end
