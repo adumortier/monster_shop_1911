@@ -21,6 +21,25 @@ class Merchant::DiscountsController < Merchant::BaseController
     @discount = Discount.find(params[:id])
   end
 
+  def edit 
+    if session[:failed_update_discount]
+      @discount = Discount.find(session[:failed_update_discount])
+    else
+      @discount = Discount.find(params[:id])
+    end
+  end
+
+  def update 
+    @discount = Discount.find(params[:id])
+    update_discount(@discount)
+  end
+
+  def destroy
+    discount = Discount.find(params[:id])
+    discount.destroy 
+    redirect_to "/merchant/discounts"
+  end
+
   private
 
   def discount_params
@@ -40,6 +59,19 @@ class Merchant::DiscountsController < Merchant::BaseController
       session[:failed_discount] = discount_params
       flash[:error] = discount.errors.full_messages.to_sentence
       redirect_to '/merchant/discounts/new'
+    end
+  end
+
+  def update_discount(discount)
+    discount.update(discount_params)
+    if discount.save
+      flash[:discount] = 'Your discount was updated successfully'
+      session[:failed_update_discount] = nil
+      redirect_to '/merchant/discounts'
+    else
+      session[:failed_update_discount] = params[:id]
+      flash[:error] = discount.errors.full_messages.to_sentence
+      redirect_to "/merchant/discounts/#{params[:id]}/edit"
     end
   end
 

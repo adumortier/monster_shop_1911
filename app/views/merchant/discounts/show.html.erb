@@ -2,3 +2,5 @@
 <p> Number of Items: <%= "#{@discount.number_items}" %> </p> 
 <p> Discount Percent: <%= "#{number_to_percentage(@discount.percent, precision:1)}" %> </p> 
 <p> Created on: <%= "#{@discount.created_at}" %> </p> 
+
+<%= link_to 'Delete', "/merchant/discounts/#{@discount.id}", method: :delete %>
