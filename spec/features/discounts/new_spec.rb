@@ -65,7 +65,6 @@ RSpec.describe 'As a merchant employee', type: :feature do
         expect(page).to have_content("Name: #{new_discount.name}")
         expect(page).to have_content("Number of Items: #{new_discount.number_items}")
         expect(page).to have_content("Discount Percent: #{ActiveSupport::NumberHelper.number_to_percentage(new_discount.percent, precision: 1)}")
-        expect(page).to have_content("Created on: #{new_discount.created_at}")
       end
       expect(page).to_not have_content("Name: #{@discount3.name}")
 

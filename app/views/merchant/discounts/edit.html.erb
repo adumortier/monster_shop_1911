@@ -1,0 +1,17 @@
+<center>
+  <%= form_with url: merchant_update_discount_path(@discount.id), local: true, html: { method: :patch } do |f| %>
+
+    <%= f.label :name %>
+    <%= f.text_field :name, :value => @discount[:name] %> <br>
+
+    <%= f.label :number_items %>
+    <%= f.text_field :number_items, :value => @discount[:number_items] %>  <br>
+
+    <%= f.label :percent %>
+    <%= f.text_field :percent, :value => @discount[:percent] %>  <br>
+
+    <%= f.submit("Update") %>
+
+  <% end %>
+
+</center>

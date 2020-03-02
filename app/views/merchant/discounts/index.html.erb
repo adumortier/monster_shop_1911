@@ -6,6 +6,7 @@
     <p> Name: <%= link_to discount.name, "/merchant/discounts/#{discount.id}" %> </p> 
     <p> Number of Items: <%= "#{discount.number_items}" %> </p> 
     <p> Discount Percent: <%= "#{number_to_percentage(discount.percent, precision:1)}" %> </p> 
+    <p> <%= link_to 'Edit', "/merchant/discounts/#{discount.id}/edit" %> <%= link_to 'Delete', "/merchant/discounts/#{discount.id}", method: :delete %> </p> 
   </div>
   <hr>
 <% end %>

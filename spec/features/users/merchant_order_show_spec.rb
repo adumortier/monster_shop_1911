@@ -72,7 +72,9 @@ RSpec.describe "Merchant order show page", type: :feature do
     click_on(@item_8.name)
     click_on("Add To Cart")
 
-    click_on("Cart")
+    within 'nav' do 
+      click_on("Cart")
+    end
 
     click_on("Checkout")
 
@@ -220,7 +222,9 @@ RSpec.describe "Merchant order show page", type: :feature do
     click_on(@item_8.name)
     click_on("Add To Cart")
 
-    click_on("Cart")
+    within 'nav' do 
+      click_on("Cart")
+    end
 
     click_on("Checkout")
 
@@ -249,7 +253,9 @@ RSpec.describe "Merchant order show page", type: :feature do
     click_on(@item_4.name)
     click_on("Add To Cart")
 
-    click_on("Cart")
+    within 'nav' do 
+      click_on("Cart")
+    end
 
     click_on("Checkout")
 
