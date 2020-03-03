@@ -19,6 +19,7 @@ class OrdersController <ApplicationController
         order.item_orders.create({
           item: item,
           quantity: quantity,
+          # price: item.price_with_discount
           price: item.price
           })
       end

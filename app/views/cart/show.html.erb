@@ -10,6 +10,7 @@
     <th>Price</th>
     <th>Quantity</th>
     <th>Subtotal</th>
+    <th>Discounts</th>
   </tr>
 
   <% @items.each do |item,quantity| %>
@@ -17,7 +18,7 @@
       <td>
         <p align = "center">
           <span>
-            <img align = "center" id="cart-image" <%= image_tag(item.image, size: "275x200") %>>
+            <img align = "center" id="cart-image" <%= image_tag(item.image, size: "275x200") %> 
 
             <%=link_to item.name, "/items/#{item.id}" %>
           </span>
@@ -36,10 +37,13 @@
         <p> <%= button_to "Add One More", "/cart/#{item.id}", params: {increment_decrement: "increment"}, method: :patch %> </p>
         <p> <%= button_to "Remove One From Cart", "/cart/#{item.id}", params: {increment_decrement: "decrement"}, method: :patch %> </p>
         <p><%= link_to "Remove", "/cart/#{item.id}",method: :delete %></p>
-        <p><%=number_to_currency(cart.subtotal(item))%></p>
-        </td>
+      </td>
       <td>
-    </td>
+        <p><%=number_to_currency(cart.subtotal(item))%></p>
+      </td>
+      <td>
+        <%= item.check_discount(quantity).join(", ") %>% off
+      </td>
     </tr>
   <% end %>
 </table>
