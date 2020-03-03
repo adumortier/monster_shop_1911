@@ -37,4 +37,17 @@ class Item <ApplicationRecord
   def switch_active_status
     toggle!(:active?)
   end
+
+  def check_discount(quantity)
+    if merchant.discounts.where("number_items <= #{quantity}").blank?
+      ["no discount applied", 0]
+    else
+      merchant.discounts.select("name, percent")
+      .where("number_items < #{quantity} OR number_items = #{quantity}")
+      .order(number_items: :desc)
+      .limit(1)
+      .pluck(:name, :percent)
+      .first
+    end
+  end
 end

@@ -32,7 +32,6 @@ bass = music_shop.items.create(name: "Bass", description: "Okayist Bassist", pri
 keys = music_shop.items.create(name: "Keys", description: "Electrify the crowd", price: 4000, image: "https://pagemcconnell.com/wp-content/uploads/2012/02/DSC_0029-e1359740978493-192x192.jpg", inventory: 5)
 
 #fly_shop items
-rod = fly_shop.items.create(name: "Fly Rod", description: "Sage x240", price: 310, image: "https://lh3.googleusercontent.com/proxy/AMtWz71cFKLIGhrCZ5kKiF1MxCcW4crJn6Ar-26ytb757EzIW8WHUvjpO4jYhyitP2LXxDvunuWn1y6d2WWXdOFrQFE5AKMF5OcaEsuK7nUdsJ631ewlMfsx8jfydKqRENStm58GCS8", inventory: 7)
 reel = fly_shop.items.create(name: "Fly Reel", description: "Abel Super 5wt", price: 600, image: "https://www.rossreels.com/rr-news/abel-reels/wp-content/uploads/sites/7/2017/01/ss-wt-1.png", inventory: 6)
 fly_line = fly_shop.items.create(name: "Fly Line", description: "Fish can't see or break it!", price: 60, image: "https://cdn11.bigcommerce.com/s-h8h1haj1/images/stencil/1280x1280/products/425/1800/20190117_191540__27881.1547775957.jpg?c=2&imbypass=on", inventory: 3)
 

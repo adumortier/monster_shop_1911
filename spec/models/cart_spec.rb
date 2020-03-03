@@ -8,6 +8,9 @@ describe Cart, type: :model do
       @pencil = @mike.items.create(name: "Yellow Pencil", description: "You can write on paper with it!", price: 2, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 3)
       @pen = @mike.items.create(name: "Red Pen", description: "You can write on paper with it!", price: 1, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 2)
       @cart = Cart.new({"#{@paper.id.to_s}" => 4, "#{@pencil.id.to_s}" => 2, "#{@pen.id.to_s}" => 2})
+
+      @discount1 = @mike.discounts.create!(name: "cool discount", percent: 15.0, number_items: 10)
+      @discount2 = @mike.discounts.create!(name: "cooler discount", percent: 20.0, number_items: 15)
     end
 
     it "can add one to quantity of an item" do
@@ -45,5 +48,6 @@ describe Cart, type: :model do
       expect(@cart.contents[@paper.id.to_s]).to eq(5)
       expect(@cart.limit_reached?(@paper.id.to_s)).to eq(true)
     end
+
   end
 end

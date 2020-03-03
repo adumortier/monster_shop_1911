@@ -108,5 +108,42 @@ describe Item, type: :model do
       expect([Item.least_popular_items[0].name, Item.least_popular_items[1].name, Item.least_popular_items[2].name, Item.least_popular_items[3].name, Item.least_popular_items[4].name]).to eq([item_2.name, item_6.name, item_4.name, item_7.name, item_5.name])
 
     end
+
+    it "can find which quantities apply to a bulk discount" do 
+
+      @mike = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
+
+      @paper = @mike.items.create(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 5)
+      @pencil = @mike.items.create(name: "Yellow Pencil", description: "You can write on paper with it!", price: 2, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 3)
+      @pen = @mike.items.create(name: "Red Pen", description: "You can write on paper with it!", price: 1, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 2)
+
+      @discount1 = @mike.discounts.create!(name: "winter sale", percent: 15.0, number_items: 10)
+      @discount2 = @mike.discounts.create!(name: "super winter sale", percent: 20.0, number_items: 15)
+
+      expect(@paper.check_discount(4)).to eq(["no discount applied", 0])
+      expect(@paper.check_discount(9)).to eq(["no discount applied", 0])
+      expect(@paper.check_discount(10)).to eq(["winter sale", 15.0])
+      expect(@paper.check_discount(14)).to eq(["winter sale", 15.0])
+      expect(@paper.check_discount(15)).to eq(["super winter sale", 20.0])
+      expect(@paper.check_discount(16)).to eq(["super winter sale", 20.0])
+    end
+
+    it "can calculate the unit price of an item with a discount if one applies" do 
+      @mike = Merchant.create(name: "Mike's Print Shop", address: '123 Paper Rd.', city: 'Denver', state: 'CO', zip: 80203)
+
+      @paper = @mike.items.create(name: "Lined Paper", description: "Great for writing on!", price: 20, image: "https://cdn.vertex42.com/WordTemplates/images/printable-lined-paper-wide-ruled.png", inventory: 5)
+      @pencil = @mike.items.create(name: "Yellow Pencil", description: "You can write on paper with it!", price: 2, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 3)
+      @pen = @mike.items.create(name: "Red Pen", description: "You can write on paper with it!", price: 1, image: "https://images-na.ssl-images-amazon.com/images/I/31BlVr01izL._SX425_.jpg", inventory: 2)
+
+      @discount1 = @mike.discounts.create!(name: "winter sale", percent: 15.0, number_items: 10)
+      @discount2 = @mike.discounts.create!(name: "super winter sale", percent: 20.0, number_items: 15)
+
+      expect(@paper.unit_price(4)).to eq(@paper.price)
+      expect(@paper.unit_price(9)).to eq(@paper.price)
+      expect(@paper.unit_price(10)).to eq(@paper.price*0.85)
+      expect(@paper.unit_price(14)).to eq(@paper.price*0.85)
+      expect(@paper.unit_price(15)).to eq(@paper.price*0.80)
+      expect(@paper.unit_price(16)).to eq(@paper.price*0.80)
+    end
   end
 end
