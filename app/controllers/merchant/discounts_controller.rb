@@ -63,8 +63,13 @@ class Merchant::DiscountsController < Merchant::BaseController
   end
 
   def update_discount(discount)
+    attributes = discount.attributes
     discount.update(discount_params)
-    if discount.save
+    if !discount.valid_discount? 
+      discount.update(attributes)
+      flash[:conflict] = 'This discount would be in conflict with existing discounts' 
+      redirect_to "/merchant/discounts/#{params[:id]}/edit"
+    elsif discount.save
       flash[:discount] = 'Your discount was updated successfully'
       session[:failed_update_discount] = nil
       redirect_to '/merchant/discounts'

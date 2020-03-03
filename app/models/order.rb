@@ -1,6 +1,7 @@
 # frozen_string_literal: true
 
 class Order < ApplicationRecord
+  
   validates_presence_of :name, :address, :city, :state, :zip
 
   has_many :item_orders

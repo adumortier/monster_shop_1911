@@ -50,4 +50,13 @@ class Item <ApplicationRecord
       .first
     end
   end
+
+  def unit_price(quantity)
+    if merchant.discounts.select("percent").where("number_items < #{quantity} OR number_items = #{quantity}").order(number_items: :desc).limit(1).pluck(:percent).first.nil?
+      price
+    else
+      price * (1 - 0.01*merchant.discounts.select("percent").where("number_items < #{quantity} OR number_items = #{quantity}").order(number_items: :desc).limit(1).pluck(:percent).first)
+    end
+  end
+
 end

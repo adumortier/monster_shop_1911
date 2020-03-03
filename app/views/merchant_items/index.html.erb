@@ -1,6 +1,6 @@
 
 <h1><%= link_to @merchant.name, "/merchants/#{@merchant.id}"%><span> Items</span></h1>
- <p align="center"><%= link_to "Add New Item", "/merchants/#{@merchant.id}/items/new" %></p>
+ <h1 align="center"><%= link_to "Add New Item", "/merchants/#{@merchant.id}/items/new" %></h1>
 
 <section class="grid-container">
   <% @merchant.items.each do |item| %>
@@ -17,5 +17,3 @@
   <% end %>
 </section>
 
-<p> the most popular items are : <%= Item.most_popular_items.join(", ") %> </p>
-<p> the least popular items are : <%= Item.least_popular_items.join(", ") %> </p>

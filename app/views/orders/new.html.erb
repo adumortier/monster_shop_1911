@@ -2,9 +2,11 @@
 <table>
   <tr>
     <th>Item</th>
-    <th>Price</th>
+    <th>Unit Price</th>
+    <th>Unit Price w/ Discount</th>
     <th>Quantity</th>
     <th>Subtotal</th>
+    <th>Subtotal w/ Discount</th>
     <th>Sold By</th>
     <th>Inventory</th>
   </tr>
@@ -12,8 +14,10 @@
     <tr id='order-item-<%= item.id%>'>
       <td><h2><%= link_to item.name, "/items/#{item.id}" %></h2></td>
       <td><p><%= number_to_currency(item.price) %></p></td>
+      <td id='order-item-price-<%= item.id%>'><p><%= number_to_currency(item.unit_price(quantity)) %></p></td>
       <td><p><%= quantity %></p></td>
       <td><p><%= number_to_currency(cart.subtotal(item)) %></p></td>
+      <td id='order-item-subtotal-<%= item.id%>'><p><%= number_to_currency(cart.subtotal_with_discount(item)) %></p></td>
       <td><p><%= link_to item.merchant.name, "/merchants/#{item.merchant_id}" %></p></td>
       <td><p><%= item.inventory %> in stock</p></td>
     </tr>
