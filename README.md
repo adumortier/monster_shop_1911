@@ -4,9 +4,9 @@
 
 Monster Shop is a basic, Rails e-commerce application. Assigned as a group project during Mod 2 of 4 to our group of four, we worked across a period of ten days to implement a slew of e-commerce basics including CRUD functionality, log in and authentication, authorization (for four different user types), cart functionality, and statistics for multiple aspects of the site (most popular, least popular, etc.)
 
-View Monster Shop from heroku [here](https://monstershop-coupon.herokuapp.com/).
-
 The extension of Monster Shop (included in this repository) was completed as a solo project and includes CRUD functionality on discounts. Merchants can create, view, edit, delete bulk discounts on their items. When users access their cart, they can see which bulk discounts apply to their cart. The subtotals and total are adjusted based on those discounts. 
+
+View Monster Shop from heroku [here](https://monstershop-coupon.herokuapp.com/).
 
 ## Implementation Instructions
 
