@@ -13,8 +13,8 @@ class Merchant::DiscountsController < Merchant::BaseController
   end
 
   def create 
-    @discount = current_user.merchant.discounts.create(discount_params)
-    create_discount(@discount)
+    discount = current_user.merchant.discounts.create(discount_params)
+    create_discount(discount)
   end
 
   def show 
@@ -47,12 +47,12 @@ class Merchant::DiscountsController < Merchant::BaseController
   end
 
   def create_discount(discount)
-     if discount.valid_discount? && discount.save 
+    if discount.valid_discount? && discount.unique_discount? && discount.save 
       flash[:notice] = 'Your new discount was saved'
       session[:failed_discount] = nil
       redirect_to '/merchant/discounts'
     else
-      if !discount.valid_discount? 
+      if !(discount.valid_discount? && discount.unique_discount?)
         flash[:conflict] = 'The discount you tried to create is in conflict with existing discounts' 
       end
       discount.destroy
@@ -65,19 +65,31 @@ class Merchant::DiscountsController < Merchant::BaseController
   def update_discount(discount)
     attributes = discount.attributes
     discount.update(discount_params)
-    if !discount.valid_discount? 
+    if !(discount.valid_discount? && discount.unique_discount?)
       discount.update(attributes)
-      flash[:conflict] = 'This discount would be in conflict with existing discounts' 
-      redirect_to "/merchant/discounts/#{params[:id]}/edit"
+      conflict_flash_redirect
     elsif discount.save
-      flash[:discount] = 'Your discount was updated successfully'
-      session[:failed_update_discount] = nil
-      redirect_to '/merchant/discounts'
+      save_flash_redirect 
     else
-      session[:failed_update_discount] = params[:id]
-      flash[:error] = discount.errors.full_messages.to_sentence
-      redirect_to "/merchant/discounts/#{params[:id]}/edit"
+      error_flash_redirect(discount) 
     end
+  end
+
+  def save_flash_redirect 
+    flash[:discount] = 'Your discount was updated successfully'
+    session[:failed_update_discount] = nil
+    redirect_to '/merchant/discounts'
+  end
+
+  def error_flash_redirect(discount) 
+    session[:failed_update_discount] = params[:id]
+    flash[:error] = discount.errors.full_messages.to_sentence
+    redirect_to "/merchant/discounts/#{params[:id]}/edit"
+  end
+
+  def conflict_flash_redirect 
+    flash[:conflict] = 'This discount would be in conflict with existing discounts' 
+    redirect_to "/merchant/discounts/#{params[:id]}/edit"
   end
 
 end

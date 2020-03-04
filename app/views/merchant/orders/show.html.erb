@@ -1,19 +1,20 @@
 <h1>User Orders</h1>
 
-<p>
-  <h2><%= @order.name %><h3/><br>
-    <%= @order.address %><br>
-    <%= @order.city %><br>
-    <%= @order.state %><br>
-    <%= @order.zip %><br>
+<h3>  Customer Information: </h3> 
+  <p> Name: <%= @order.name %> </p>
+  <p> Address:  <%= @order.address %> </p> 
+  <p> City: <%= @order.city %></p>
+  <p> State: <%= @order.state %></p>
+  <p> Zip: <%= @order.zip %></p>
+  <hr>
     <% @order.item_orders.each do |item_order| %>
       <% if item_order.item.merchant_id == self.current_user.merchant_id %>
       <section id= <%= "item-#{item_order.item.id}" %>>
-        <%= item_order.item.name %><br>
+        <h3>  <%= item_order.item.name %> </h3> <br>
         <img src=<%= item_order.item.image %>><br>
-        <%= item_order.item.price %><br>
-        <%= "Number of Items: #{item_order.quantity}" %><br>
-        <%= item_order.status.capitalize %><br>
+        <%= "Unit Price Before Discount: $#{item_order.item.price}" %><br> <br>
+        <%= "Number of Items: #{item_order.quantity}" %><br> <br>
+        <%= "Status: #{item_order.status.capitalize}" %><br> <br>
         <% if item_order.unfulfilled? && item_order.quantity <= item_order.item.inventory%>
           <%= button_to "Fulfill", "/item_orders/#{item_order.id}", params: {fulfill: "fulfill"}, method: :patch %>
         <% elsif %>
