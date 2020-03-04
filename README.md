@@ -4,14 +4,15 @@
 
 Monster Shop is a basic, Rails e-commerce application. Assigned as a group project during Mod 2 of 4 to our group of four, we worked across a period of ten days to implement a slew of e-commerce basics including CRUD functionality, log in and authentication, authorization (for four different user types), cart functionality, and statistics for multiple aspects of the site (most popular, least popular, etc.)
 
-View Monster Shop from heroku [here](https://boiling-lowlands-04052.herokuapp.com/).
+View Monster Shop from heroku [here](https://monstershop-coupon.herokuapp.com/).
 
+The extension of Monster Shop (included in this repository) was completed as a solo project and includes CRUD functionality on discounts. Merchants can create, view, edit, delete bulk discounts on their items. When users access their cart, they can see which bulk discounts apply to their cart. The subtotals and total are adjusted based on those discounts. 
 
 ## Implementation Instructions
 
 To implement Monster Shop locally, run the following commands:
 
-<code>git clone git@github.com:TravisBorgsmiller/monster_shop_1911.git</code>
+<code>git clone git@github.com:adumortier/monster_shop_1911.git</code>
 
 <code>cd monster_shop_1911</code>
 
@@ -29,24 +30,22 @@ Deploy Monster Shop from heroku.
 
 ## Schema Design
 
-![alt text](app/assets/images/Screen_Shot_2020-02-27_at_1.54.30_PM.png)
+![alt text](app/assets/images/db_tables.png)
 
 
 ## Contributors
 
-[Travis Borgsmiller](https://github.com/TravisBorgsmiller)
+[Travis Borgsmiller](https://github.com/TravisBorgsmiller) (Monster Shop Basic)
 
-[Chase Gaddis](https://github.com/cgaddis36)
+[Chase Gaddis](https://github.com/cgaddis36) (Monster Shop Basic)
 
-[Kelly Bard](https://github.com/KellyIB)
+[Kelly Bard](https://github.com/KellyIB) (Monster Shop Basic)
 
-[Alexis Dumortier](https://github.com/adumortier)
+[Alexis Dumortier](https://github.com/adumortier) (Monster Shop Basic + Discount Extension)
 
 ## Background and Description
 
 "Monster Shop" is a fictitious e-commerce platform where users can register to place items into a shopping cart and 'check out'. Users who work for a merchant can mark their items as 'fulfilled'; the last merchant to mark items in an order as 'fulfilled' will automatically set the order status to "shipped". Each user role will have access to some or all CRUD functionality for application models.
-
-Students will be put into 3 or 4 person groups to complete the project.\n
 
 ## Learning Goals
 
