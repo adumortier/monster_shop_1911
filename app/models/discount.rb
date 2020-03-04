@@ -11,4 +11,10 @@ class Discount < ApplicationRecord
     merchant.discounts.order(:number_items) == merchant.discounts.order(:percent)  
   end
 
+  def unique_discount?
+    merchant.discounts.select(:name).distinct.count == merchant.discounts.count  && 
+    merchant.discounts.select(:number_items).distinct.count == merchant.discounts.count &&
+    merchant.discounts.select(:percent).distinct.count == merchant.discounts.count 
+  end
+
 end

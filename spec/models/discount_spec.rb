@@ -22,6 +22,17 @@ RSpec.describe Discount, type: :model do
       @discount4 = @merchant1.discounts.create!(name: 'Huge sale', number_items: 2, percent: 12)
       expect(@discount4.valid_discount?).to eq(false)
     end
+
+    it "#unique_discount?" do 
+      @merchant1 = create(:random_merchant)
+      @discount1 = @merchant1.discounts.create!(name: 'winter special', number_items: 10, percent: 15)
+      @discount2 = @merchant1.discounts.create!(name: 'big sale', number_items: 5, percent: 10)
+      @discount3 = @merchant1.discounts.create!(name: 'big sale', number_items: 20, percent: 12)
+      expect(@discount3.unique_discount?).to eq(false)
+      @discount3.destroy 
+      @discount4 = @merchant1.discounts.create!(name: 'new sale', number_items: 10, percent: 15)
+      expect(@discount4.unique_discount?).to eq(false)
+    end
   end
 
 

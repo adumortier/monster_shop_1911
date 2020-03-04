@@ -116,7 +116,7 @@ RSpec.describe "As a merchant employee", type: :feature do
 
     end
 
-    it 'I can not edit a discount in a way that would put in conflict with other discounts' do 
+    it 'I can not edit a discount in a way that would put it in conflict with other existing discounts' do 
       
       expect(current_path).to eq('/merchant')
 
@@ -131,10 +131,12 @@ RSpec.describe "As a merchant employee", type: :feature do
       expect(find_field('percent').value).to eq(@discount2.percent.to_s)
 
       fill_in :name, with: 'A not legit discount'
-      fill_in :number_items, with: 0
-      fill_in :percent, with: 0.0
+      fill_in :number_items, with: 6
+      fill_in :percent, with: 20.0
 
       click_button("Update")
+
+      expect(page).to have_content('This discount would be in conflict with existing discounts')
 
       expect(current_path).to eq("/merchant/discounts/#{@discount2.id}/edit")
 
@@ -149,5 +151,43 @@ RSpec.describe "As a merchant employee", type: :feature do
       expect(page).to_not have_content("Discount Percent: 0.0%")
 
     end
+
+    it 'I can not edit a discount to give it the same parameters as another existing discount' do 
+      
+      expect(current_path).to eq('/merchant')
+
+      click_link 'My Discounts'
+
+      within("div#discount-#{@discount2.id}") do 
+        click_link("Edit")
+      end
+
+      expect(find_field('name').value).to eq(@discount2.name)
+      expect(find_field('number_items').value).to eq(@discount2.number_items.to_s)
+      expect(find_field('percent').value).to eq(@discount2.percent.to_s)
+
+      fill_in :name, with: 'A not legit discount'
+      fill_in :number_items, with: 10
+      fill_in :percent, with: 15.0
+
+      click_button("Update")
+
+      expect(page).to have_content('This discount would be in conflict with existing discounts')
+
+      expect(current_path).to eq("/merchant/discounts/#{@discount2.id}/edit")
+
+      expect(find_field('name').value).to eq(@discount2.name)
+      expect(find_field('number_items').value).to eq(@discount2.number_items.to_s)
+      expect(find_field('percent').value).to eq(@discount2.percent.to_s)
+
+      visit '/merchant/discounts'
+
+      expect(page).to_not have_content("Name: A not legit discount")
+      expect(page).to_not have_content("Number of Items: 0")
+      expect(page).to_not have_content("Discount Percent: 0.0%")
+
+    end
+
+
   end
 end
