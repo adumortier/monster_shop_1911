@@ -9,7 +9,7 @@
     <th>Sold By</th>
     <th>Price</th>
     <th>Quantity</th>
-    <th>Subtotal</th>
+    <th>Subtotal w/ Discount</th>
     <th>Discounts</th>
   </tr>
 
@@ -39,7 +39,7 @@
         <p><%= link_to "Remove", "/cart/#{item.id}",method: :delete %></p>
       </td>
       <td>
-        <p><%=number_to_currency(cart.subtotal(item))%></p>
+        <p><%=number_to_currency(cart.subtotal_with_discount(item))%></p>
       </td>
       <td>
         <%= item.check_discount(quantity).join(", ") %>% off
@@ -47,13 +47,13 @@
     </tr>
   <% end %>
 </table>
-  <p>Total: <%= number_to_currency(cart.total) %></p>
+  
   <p><%= link_to "Empty Cart", "/cart", method: :delete %></p>  
 
   <% if current_user %>
       <p><%= link_to "Checkout", "/orders/new", method: :get %></p>
   <% else %>    
-      <p> "You must <%= link_to 'register', "/register" %> or <%= link_to "log in", "/login" %> to finish the checkout process" </p>
+      <p> You must <%= link_to 'register', "/register" %> or <%= link_to "log in", "/login" %> to finish the checkout process </p>
   <% end %>
     
 <% else %>
