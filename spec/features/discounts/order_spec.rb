@@ -84,7 +84,7 @@ RSpec.describe "Order creating with discounts " , type: :feature do
 
     end
 
-    it "my order once created reflects the discounts applied to the items in the cart" do 
+    it "my order, once created reflects the discounts applied to the items in the cart" do 
 
       name = "Bert"
       address = "123 Sesame St."

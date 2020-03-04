@@ -100,6 +100,35 @@ RSpec.describe 'As a merchant employee', type: :feature do
 
     end
 
+    it 'I can not create a new discount with a percent larger than 100' do
+
+      visit '/merchant/discounts'
+      click_link('Add Discount')
+      expect(current_path).to eq('/merchant/discounts/new')
+
+      fill_in :name, with: 'A discount with invalid fields'
+      fill_in :number_items, with: 0
+      fill_in :percent, with: 120.0
+
+      last_discount = @merchant1.discounts.last
+
+      click_button 'Submit'
+
+      new_discount = @merchant1.discounts.last
+
+      expect(new_discount).to eq(last_discount)
+
+      expect(current_path).to eq('/merchant/discounts/new')
+
+      expect(find_field('name').value).to eq("A discount with invalid fields")
+      expect(find_field('number_items').value).to eq("0")
+      expect(find_field('percent').value).to eq("120.0")
+
+      expect(page).to have_content('Number items must be greater than 0')
+      expect(page).to have_content('Percent must be less than 100')
+
+    end
+
     it 'I can not create a discount that conflicts with existing discounts' do
 
       visit '/merchant/discounts'
