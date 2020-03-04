@@ -4,7 +4,8 @@ class Discount < ApplicationRecord
 
   validates_numericality_of :number_items, greater_than: 0, message: " must be greater than 0"
   validates_numericality_of :percent, greater_than: 0, message: " must be greater than 0"
-
+  validates_numericality_of :percent, less_than: 100, message: " must be less than 100"
+  
   belongs_to :merchant
 
   def valid_discount?
