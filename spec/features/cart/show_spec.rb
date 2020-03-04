@@ -41,7 +41,6 @@ RSpec.describe 'Cart show' do
             expect(page).to have_content("$#{item.price}")
           end
         end
-        expect(page).to have_content("Total: $122")
 
         visit "/items/#{@pencil.id}"
         click_on "Add To Cart"
@@ -53,7 +52,6 @@ RSpec.describe 'Cart show' do
           expect(page).to have_content("$4")
         end
 
-        expect(page).to have_content("Total: $124")
       end
     end
   end
