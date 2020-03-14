@@ -2,18 +2,30 @@
 
 Rails.application.routes.draw do
   # For details on the DSL available within this file, see http://guides.rubyonrails.org/routing.html
+  get '/merchants', to: 'merchants#index'
+  get '/merchants/new', to: 'merchants#new'
+  get '/merchants/:id', to: 'merchants#show'
+  post '/merchants', to: 'merchants#create'
+  get '/merchants/:id/edit', to: 'merchants#edit'
+  patch '/merchants/:id', to: 'merchants#update'
+  delete '/merchants/:id', to: 'merchants#destroy'
 
-  resources :merchants do
-    resources :items, only: [:new, :create]
-  end
-
-  resources :items , except: [:new, :create] do
-    resources :reviews, only: [:new, :create]
-  end
-
+  get '/items', to: 'items#index'
+  get '/items/:id', to: 'items#show'
+  get '/items/:id/edit', to: 'items#edit'
+  patch '/items/:id', to: 'items#update'
   get '/merchants/:merchant_id/items', to: 'merchant_items#index'
 
-  resources :reviews, only: [:edit, :update, :destroy]
+  get '/merchants/:merchant_id/items/new', to: 'items#new'
+  post '/merchants/:merchant_id/items', to: 'items#create'
+  delete '/items/:id', to: 'items#destroy'
+
+  get '/items/:item_id/reviews/new', to: 'reviews#new'
+  post '/items/:item_id/reviews', to: 'reviews#create'
+
+  get '/reviews/:id/edit', to: 'reviews#edit'
+  patch '/reviews/:id', to: 'reviews#update'
+  delete '/reviews/:id', to: 'reviews#destroy'
 
   post '/cart/:item_id', to: 'cart#add_item'
   get '/cart', to: 'cart#show'
@@ -21,29 +33,35 @@ Rails.application.routes.draw do
   delete '/cart', to: 'cart#empty'
   delete '/cart/:item_id', to: 'cart#remove_item'
 
-  resources :orders, only: [:new, :create]
-  
+  get '/orders/new', to: 'orders#new'
+  post '/orders', to: 'orders#create'
   get '/profile/orders/:id', to: 'orders#show'
 
-  resources :item_orders, only: :update
+  patch '/item_orders/:item_order_id', to: 'item_orders#update'
 
   namespace :merchant do
     get '/', to: 'dashboard#index'
-    resources :items, only: :index
-    resources :discounts, except: :update
-
+    get '/items', to: 'items#index'
+    get '/discounts', to: 'discounts#index'
+    get '/discounts/new', to: 'discounts#new'
+    get '/discounts/:id', to: 'discounts#show'
+    delete '/discounts/:id', to: 'discounts#destroy'
+    post '/discounts', to: 'discounts#create'
     patch '/discounts/:id', to: 'discounts#update', as: 'update_discount' 
-    
+    get '/discounts/:id/edit', to: 'discounts#edit'
     get '/items/:id/edit', to: 'items#edit', as: 'edit_items'
     patch '/items/:id', to: 'items#update', as: 'post_items'
     post '/items', to: 'items#create', as: 'create_items'
     get '/orders/:id', to: 'orders#show'
-    resources :items, only: [:new, :destroy, :update]
+    get '/items/new', to: 'items#new'
+    delete '/items/:id', to: 'items#destroy'
+    patch '/items/:id', to: 'items#update'
   end
 
   namespace :admin do
     get '/', to: 'dashboard#index'
-    resources :users, only: [:index, :show]
+    get '/users', to: 'users#index'
+    get '/users/:user_id', to: 'users#show'
     get '/users/:user_id/orders/:order_id', to: 'orders#show'
     get '/merchants', to: 'merchants/merchants#index'
     get '/merchants/items', to: 'merchants/items#index'
@@ -61,7 +79,6 @@ Rails.application.routes.draw do
   patch '/profile', to: 'users#update'
 
   get '/', to: 'welcome#index'
-
   get '/login', to: 'sessions#new'
   post '/login', to: 'sessions#create'
   delete '/logout', to: 'sessions#destroy'
@@ -70,5 +87,6 @@ Rails.application.routes.draw do
   patch '/user/password/update', to: 'users_password#update'
 
   get '/profile/orders', to: 'orders#index'
+
 
 end
