@@ -8,7 +8,7 @@ The extension of Monster Shop (included in this repository) was completed as a s
 
 View Monster Shop from heroku [here](https://monstershop-coupon.herokuapp.com/).
 
-![alt text](app/assets/images/demo.gif)
+![alt text](app/assets/images/demo_monster_shop.gif)
 
 ## Implementation Instructions
 
